@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <title>SF Eviction Map</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: whitesmoke;
+            font-family: Lato, sans-serif;
+            color: #0D0000;
+        }
+        header {
+            padding: 6px 10%;
+        }
+        h1 {
+            display: inline-block;
+            margin-right: 20px;
+            color: #001323;
+        }
+        h2 {
+            display: inline-block;
+            color: #001323;
+        }
+        #map {
+            width: 80%;
+            height: 540px;
+            margin: 10px auto;
+        }
+        footer {
+            padding: 6px 10%;
+            width: 80%;
+        }
+        p {
+            font-size: 1em;
+            color: #001323;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>San Francisco Evictions by Reason</h1>
+        <h2>(1997-Present)</h2>
+    </header>
+
+    <div id='map'></div>
+
+    <footer>
+        <p>Map authored by Casey Smith</p>
+        <p>Source: San Francisco Open Data - datasf.org</p>
+        <p>Color Group Breakdown:  Yellow - Evicted for being poor, Green - Evicted for owner's financial gain, Purple - MISC. </p>
+    </footer>
+
+    <script src="sf_eviction_with_year.js"></script>
+    <script>
+
+        
+      var map = L.map('map', {
+          center: [37.7749, -122.4194],
+          zoom: 11,
+      });
+      
+      var tiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+          subdomains: 'abcd',
+          maxZoom: 19
+      });  
+      
+      tiles.addTo(map);
+        
+        
+        
+        
+       
+  //Category (purple): Misc. Reason (likely not because tenant was poor, or owner wanted to get richer)
+        
+        
+ var access_denial = L.geoJson(notice, {
+          pointToLayer: function(feature,latlng) {
+              console.log(feature.properties.access_den)
+              return L.circleMarker(latlng, {
+                  color: 'purple',
+                weight: .25,
+                 fillColor: 'purple',
+                 fillOpacity: .1,
+                 radius: .5 
+              });       
+            },
+        filter : function(feature, layer){
+              if(feature.properties.access_den == 'T'){
+                  return feature
+        }
+        },
+         
+            onEachFeature : function(feature,layer) {
+            layer.on('mouseover', function() {
+            layer.setStyle({
+                fillColor: 'blue'
+            });
+        });
+        layer.on('mouseout', function() {
+            layer.setStyle({
+                fillColor: 'purple'
+            });
+        });
+          
+          var eviction_id = feature.properties.eviction_i
+          var date_filed = feature.properties.date_file_
+          var neighborhood = feature.properties.neighborho
+                             
+          
+          var popup = ("Eviction ID: " + eviction_id + "</b><br>"
+            + "Date Filed: "   + date_filed + "</b><br>" + "Neighborhood: " + neighborhood)
+                       layer.bindPopup(popup)
+        }
+      }).addTo(map);    
+        
+ var unapproved_subtenant = L.geoJson(notice, {
+          pointToLayer: function(feature,latlng) {
+              console.log(feature.properties.unapproved)
+              return L.circleMarker(latlng, {
+                   color: 'purple',
+                weight: .25,
+                 fillColor: 'purple',
+                 fillOpacity: .1,
+                 radius: .5 
+              });       
+            },
+        filter : function(feature, layer){
+              if(feature.properties.unapproved == 'T'){
+                  return feature
+        }
+        },
+         
+            onEachFeature : function(feature,layer) {
+            layer.on('mouseover', function() {
+            layer.setStyle({
+                fillColor: 'blue'
+            });
+        });
+        layer.on('mouseout', function() {
+            layer.setStyle({
+                fillColor: 'purple'
+            });
+        });
+          
+          var eviction_id = feature.properties.eviction_i
+          var date_filed = feature.properties.date_file_
+          var neighborhood = feature.properties.neighborho
+                             
+          
+          var popup = ("Eviction ID: " + eviction_id + "</b><br>"
+            + "Date Filed: "   + date_filed + "</b><br>" + "Neighborhood: " + neighborhood)
+                       layer.bindPopup(popup)
+        }
+      }).addTo(map); 
+        
+ var breach = L.geoJson(notice, {
+          pointToLayer: function(feature,latlng) {
+              console.log(feature.properties.breach)
+              return L.circleMarker(latlng, {
+                    color: 'purple',
+                weight: .25,
+                 fillColor: 'purple',
+                 fillOpacity: .1,
+                 radius: .5 
+              });       
+            },
+        filter : function(feature, layer){
+              if(feature.properties.breach == 'T'){
+                  return feature
+        }
+        },
+         
+            onEachFeature : function(feature,layer) {
+            layer.on('mouseover', function() {
+            layer.setStyle({
+                fillColor: 'blue'
+            });
+        });
+        layer.on('mouseout', function() {
+            layer.setStyle({
+                fillColor: 'purple'
+            });
+        });
+          
+          var eviction_id = feature.properties.eviction_i
+          var date_filed = feature.properties.date_file_
+          var neighborhood = feature.properties.neighborho
+                             
+          
+          var popup = ("Eviction ID: " + eviction_id + "</b><br>"
+            + "Date Filed: "   + date_filed + "</b><br>" + "Neighborhood: " + neighborhood)
+                       layer.bindPopup(popup)
+        }
+      }).addTo(map); 
+        
+     var illegal_use = L.geoJson(notice, {
+          pointToLayer: function(feature,latlng) {
+              console.log(feature.properties.illegal_us)
+              return L.circleMarker(latlng, {
+                    color: 'purple',
+                weight: .25,
+                 fillColor: 'purple',
+                 fillOpacity: .1,
+                 radius: .5 
+              });       
+            },
+        filter : function(feature, layer){
+              if(feature.properties.illegal_us == 'T'){
+                  return feature
+        }
+        },
+         
+            onEachFeature : function(feature,layer) {
+            layer.on('mouseover', function() {
+            layer.setStyle({
+                fillColor: 'blue'
+            });
+        });
+        layer.on('mouseout', function() {
+            layer.setStyle({
+                fillColor: 'purple'
+            });
+        });
+          
+          var eviction_id = feature.properties.eviction_i
+          var date_filed = feature.properties.date_file_
+          var neighborhood = feature.properties.neighborho
+                             
+          
+          var popup = ("Eviction ID: " + eviction_id + "</b><br>"
+            + "Date Filed: "   + date_filed + "</b><br>" + "Neighborhood: " + neighborhood)
+                       layer.bindPopup(popup)
+        }
+      }).addTo(map); 
+        
+var lead_remediation = L.geoJson(notice, {
+          pointToLayer: function(feature,latlng) {
+              console.log(feature.properties.lead_remed)
+              return L.circleMarker(latlng, {
+                    color: 'purple',
+                weight: .25,
+                 fillColor: 'purple',
+                 fillOpacity: .1,
+                 radius: .5 
+              });       
+            },
+        filter : function(feature, layer){
+              if(feature.properties.lead_remed == 'T'){
+                  return feature
+        }
+        },
+         
+            onEachFeature : function(feature,layer) {
+            layer.on('mouseover', function() {
+            layer.setStyle({
+                fillColor: 'blue'
+            });
+        });
+        layer.on('mouseout', function() {
+            layer.setStyle({
+                fillColor: 'purple'
+            });
+        });
+          
+          var eviction_id = feature.properties.eviction_i
+          var date_filed = feature.properties.date_file_
+          var neighborhood = feature.properties.neighborho
+                             
+          
+          var popup = ("Eviction ID: " + eviction_id + "</b><br>"
+            + "Date Filed: "   + date_filed + "</b><br>" + "Neighborhood: " + neighborhood)
+                       layer.bindPopup(popup)
+        }
+      }).addTo(map); 
+        
+var nuisance = L.geoJson(notice, {
+          pointToLayer: function(feature,latlng) {
+              console.log(feature.properties.nuisance)
+              return L.circleMarker(latlng, {
+                  color: 'orange',
+                weight: .25,
+                 fillColor: 'orange',
+                 fillOpacity: .1,
+                 radius: .5 
+              });       
+            },
+        filter : function(feature, layer){
+              if(feature.properties.nuisance == 'T'){
+                  return feature
+        }
+        },
+
+            onEachFeature : function(feature,layer) {
+            layer.on('mouseover', function() {
+            layer.setStyle({
+                fillColor: 'blue'
+            });
+        });
+        layer.on('mouseout', function() {
+            layer.setStyle({
+                fillColor: 'orange'
+            });
+        });
+          
+          var eviction_id = feature.properties.eviction_i
+          var date_filed = feature.properties.date_file_
+          var neighborhood = feature.properties.neighborho
+                             
+          
+          var popup = ("Eviction ID: " + eviction_id + "</b><br>"
+            + "Date Filed: "   + date_filed + "</b><br>" + "Neighborhood: " + neighborhood)
+                       layer.bindPopup(popup)
+        }
+      }).addTo(map);
+          
+        
+var failure_to_sign_renewal = L.geoJson(notice, {
+          pointToLayer: function(feature,latlng) {
+              console.log(feature.properties.failure_to)
+              return L.circleMarker(latlng, {
+                   color: 'purple',
+                weight: .25,
+                 fillColor: 'purple',
+                 fillOpacity: .1,
+                 radius: .5 
+              });       
+            },
+        filter : function(feature, layer){
+              if(feature.properties.failure_to == 'T'){
+                  return feature
+        }
+        },
+         
+            onEachFeature : function(feature,layer) {
+            layer.on('mouseover', function() {
+            layer.setStyle({
+                fillColor: 'blue'
+            });
+        });
+        layer.on('mouseout', function() {
+            layer.setStyle({
+                fillColor: 'purple'
+            });
+        });
+          
+          var eviction_id = feature.properties.eviction_i
+          var date_filed = feature.properties.date_file_
+          var neighborhood = feature.properties.neighborho
+                             
+          
+          var popup = ("Eviction ID: " + eviction_id + "</b><br>"
+            + "Date Filed: "   + date_filed + "</b><br>" + "Neighborhood: " + neighborhood)
+                       layer.bindPopup(popup)
+        }
+      }).addTo(map); 
+        
+var roommate_same_unit = L.geoJson(notice, {
+          pointToLayer: function(feature,latlng) {
+              console.log(feature.properties.roommate_s)
+              return L.circleMarker(latlng, {
+                    color: 'purple',
+                weight: .25,
+                 fillColor: 'purple',
+                 fillOpacity: .1,
+                 radius: .5 
+              });       
+            },
+        filter : function(feature, layer){
+              if(feature.properties.roommate_s == 'T'){
+                  return feature
+        }
+        },
+         
+            onEachFeature : function(feature,layer) {
+            layer.on('mouseover', function() {
+            layer.setStyle({
+                fillColor: 'blue'
+            });
+        });
+        layer.on('mouseout', function() {
+            layer.setStyle({
+                fillColor: 'purple'
+            });
+        });
+          
+          var eviction_id = feature.properties.eviction_i
+          var date_filed = feature.properties.date_file_
+          var neighborhood = feature.properties.neighborho
+                             
+          
+          var popup = ("Eviction ID: " + eviction_id + "</b><br>"
+            + "Date Filed: "   + date_filed + "</b><br>" + "Neighborhood: " + neighborhood)
+                       layer.bindPopup(popup)
+        }
+      }).addTo(map); 
+        
+
+//  Category (green ): Development / Capitol Gain
+        
+  var condo_conversion = L.geoJson(notice, {
+          pointToLayer: function(feature,latlng) {
+              console.log(feature.properties.condo_conv)
+              return L.circleMarker(latlng, {
+                 color: 'green',
+                 weight: 1,
+                 fillColor: 'green',
+                 fillOpacity: .3,
+                 radius: 1
+              });       
+            },
+        filter : function(feature, layer){
+              if(feature.properties.condo_conv == 'T'){
+                  return feature
+        }
+        },
+
+            onEachFeature : function(feature,layer) {
+            layer.on('mouseover', function() {
+            layer.setStyle({
+                fillColor: 'blue'
+            });
+        });
+        layer.on('mouseout', function() {
+            layer.setStyle({
+                fillColor: 'green'
+            });
+        });
+          
+          var eviction_id = feature.properties.eviction_i
+          var date_filed = feature.properties.date_file_
+          var neighborhood = feature.properties.neighborho
+                             
+          
+          var popup = ("Eviction ID: " + eviction_id + "</b><br>"
+            + "Date Filed: "   + date_filed + "</b><br>" + "Neighborhood: " + neighborhood)
+                       layer.bindPopup(popup)
+        }
+      }).addTo(map);   
+        
+ var development = L.geoJson(notice, {
+          pointToLayer: function(feature,latlng) {
+              console.log(feature.properties.developmen)
+              return L.circleMarker(latlng, {
+                  color: 'green',
+                weight: .25,
+                 fillColor: 'green',
+                 fillOpacity: .1,
+                 radius: .5 
+              });       
+            },
+        filter : function(feature, layer){
+              if(feature.properties.developmen == 'T'){
+                  return feature
+        }
+        },
+         
+            onEachFeature : function(feature,layer) {
+            layer.on('mouseover', function() {
+            layer.setStyle({
+                fillColor: 'blue'
+            });
+        });
+        layer.on('mouseout', function() {
+            layer.setStyle({
+                fillColor: 'green'
+            });
+        });
+          
+          var eviction_id = feature.properties.eviction_i
+          var date_filed = feature.properties.date_file_
+          var neighborhood = feature.properties.neighborho
+                             
+          
+          var popup = ("Eviction ID: " + eviction_id + "</b><br>"
+            + "Date Filed: "   + date_filed + "</b><br>" + "Neighborhood: " + neighborhood)
+                       layer.bindPopup(popup)
+        }
+      }).addTo(map);  
+        
+var demolition = L.geoJson(notice, {
+          pointToLayer: function(feature,latlng) {
+              console.log(feature.properties.demolition)
+              return L.circleMarker(latlng, {
+                   color: 'green',
+                weight: .25,
+                 fillColor: 'green',
+                 fillOpacity: .1,
+                 radius: .5 
+              });       
+            },
+        filter : function(feature, layer){
+              if(feature.properties.demolition == 'T'){
+                  return feature
+        }
+        },
+         
+            onEachFeature : function(feature,layer) {
+            layer.on('mouseover', function() {
+            layer.setStyle({
+                fillColor: 'blue'
+            });
+        });
+        layer.on('mouseout', function() {
+            layer.setStyle({
+                fillColor: 'green'
+            });
+        });
+          
+          var eviction_id = feature.properties.eviction_i
+          var date_filed = feature.properties.date_file_
+          var neighborhood = feature.properties.neighborho
+                             
+          
+          var popup = ("Eviction ID: " + eviction_id + "</b><br>"
+            + "Date Filed: "   + date_filed + "</b><br>" + "Neighborhood: " + neighborhood)
+                       layer.bindPopup(popup)
+        }
+      }).addTo(map); 
+    
+  var capital_improvement = L.geoJson(notice, {
+          pointToLayer: function(feature,latlng) {
+              console.log(feature.properties.capital_im)
+              return L.circleMarker(latlng, {
+                 color: 'green',
+                weight: .25,
+                 fillColor: 'green',
+                 fillOpacity: .1,
+                 radius: .5 
+              });       
+            },
+        filter : function(feature, layer){
+              if(feature.properties.capital_im == 'T'){
+                  return feature
+        }
+        },
+         
+            onEachFeature : function(feature,layer) {
+            layer.on('mouseover', function() {
+            layer.setStyle({
+                fillColor: 'blue'
+            });
+        });
+        layer.on('mouseout', function() {
+            layer.setStyle({
+                fillColor: 'green'
+            });
+        });
+          
+          var eviction_id = feature.properties.eviction_i
+          var date_filed = feature.properties.date_file_
+          var neighborhood = feature.properties.neighborho
+                             
+          
+          var popup = ("Eviction ID: " + eviction_id + "</b><br>"
+            + "Date Filed: "   + date_filed + "</b><br>" + "Neighborhood: " + neighborhood)
+                       layer.bindPopup(popup)
+        }
+      }).addTo(map);   
+        
+var owner_move_in = L.geoJson(notice, {
+          pointToLayer: function(feature,latlng) {
+              console.log(feature.properties.owner_move)
+              return L.circleMarker(latlng, {
+                   color: 'green',
+                weight: .25,
+                 fillColor: 'green',
+                 fillOpacity: .1,
+                 radius: .5 
+              });       
+            },
+        filter : function(feature, layer){
+              if(feature.properties.owner_move == 'T'){
+                  return feature
+        }
+        },
+         
+            onEachFeature : function(feature,layer) {
+            layer.on('mouseover', function() {
+            layer.setStyle({
+                fillColor: 'blue'
+            });
+        });
+        layer.on('mouseout', function() {
+            layer.setStyle({
+                fillColor: 'green'
+            });
+        });
+          
+          var eviction_id = feature.properties.eviction_i
+          var date_filed = feature.properties.date_file_
+          var neighborhood = feature.properties.neighborho
+                             
+          
+          var popup = ("Eviction ID: " + eviction_id + "</b><br>"
+            + "Date Filed: "   + date_filed + "</b><br>" + "Neighborhood: " + neighborhood)
+                       layer.bindPopup(popup)
+        }
+      }).addTo(map); 
+        
+ var ellis_act = L.geoJson(notice, {
+          pointToLayer: function(feature,latlng) {
+              console.log(feature.properties.ellis_act)
+              return L.circleMarker(latlng, {
+                  color: 'green',
+                weight: .25,
+                 fillColor: 'green',
+                 fillOpacity: .1,
+                 radius: .5 
+              });       
+            },
+        filter : function(feature, layer){
+              if(feature.properties.ellis_act == 'T'){
+                  return feature
+        }
+        },
+         
+            onEachFeature : function(feature,layer) {
+            layer.on('mouseover', function() {
+            layer.setStyle({
+                fillColor: 'blue'
+            });
+        });
+        layer.on('mouseout', function() {
+            layer.setStyle({
+                fillColor: 'green'
+            });
+        });
+          
+          var eviction_id = feature.properties.eviction_i
+          var date_filed = feature.properties.date_file_
+          var neighborhood = feature.properties.neighborho
+                             
+          
+          var popup = ("Eviction ID: " + eviction_id + "</b><br>"
+            + "Date Filed: "   + date_filed + "</b><br>" + "Neighborhood: " + neighborhood)
+                       layer.bindPopup(popup)
+        }
+      }).addTo(map);   
+        
+var substantial_rehab = L.geoJson(notice, {
+          pointToLayer: function(feature,latlng) {
+              console.log(feature.properties.substantia)
+              return L.circleMarker(latlng, {
+                    color: 'green',
+                weight: .25,
+                 fillColor: 'green',
+                 fillOpacity: .1,
+                 radius: .5 
+              });       
+            },
+        filter : function(feature, layer){
+              if(feature.properties.substantia == 'T'){
+                  return feature
+        }
+        },
+         
+            onEachFeature : function(feature,layer) {
+            layer.on('mouseover', function() {
+            layer.setStyle({
+                fillColor: 'blue'
+            });
+        });
+        layer.on('mouseout', function() {
+            layer.setStyle({
+                fillColor: 'green'
+            });
+        });
+          
+          var eviction_id = feature.properties.eviction_i
+          var date_filed = feature.properties.date_file_
+          var neighborhood = feature.properties.neighborho
+                             
+          
+          var popup = ("Eviction ID: " + eviction_id + "</b><br>"
+            + "Date Filed: "   + date_filed + "</b><br>" + "Neighborhood: " + neighborhood)
+                       layer.bindPopup(popup)
+        }
+      }).addTo(map);
+        
+        
+
+  
+//Category (orange): Evicted for Late/Non-payment i.e. being poor
+var late_payment = L.geoJson(notice, {
+          pointToLayer: function(feature,latlng) {
+              console.log(feature.properties.late_payme)
+              return L.circleMarker(latlng, {
+                 color: 'orange',
+                weight: .25,
+                 fillColor: 'orange',
+                 fillOpacity: .1,
+                 radius: .5 
+              });       
+            },
+        filter : function(feature, layer){
+              if(feature.properties.late_payme == 'T'){
+                  return feature
+        }
+        },
+         
+            onEachFeature : function(feature,layer) {
+            layer.on('mouseover', function() {
+            layer.setStyle({
+                fillColor: 'blue'
+            });
+        });
+        layer.on('mouseout', function() {
+            layer.setStyle({
+                fillColor: 'orange'
+            });
+        });
+          
+          var eviction_id = feature.properties.eviction_i
+          var date_filed = feature.properties.date_file_
+          var neighborhood = feature.properties.neighborho
+                             
+          
+          var popup = ("Eviction ID: " + eviction_id + "</b><br>"
+            + "Date Filed: "   + date_filed + "</b><br>" + "Neighborhood: " + neighborhood)
+                       layer.bindPopup(popup)
+        }
+      }).addTo(map);
+      
+var non_payment = L.geoJson(notice, {
+          pointToLayer: function(feature,latlng) {
+              console.log(feature.properties.non_paymen)
+              return L.circleMarker(latlng, {
+                  color: 'orange',
+                weight: .25,
+                 fillColor: 'orange',
+                 fillOpacity: .1,
+                 radius: .5 
+              });       
+            },
+        filter : function(feature, layer){
+              if(feature.properties.non_paymen == 'T'){
+                  return feature
+        }
+        },
+
+            onEachFeature : function(feature,layer) {
+            layer.on('mouseover', function() {
+            layer.setStyle({
+                fillColor: 'blue'
+            });
+        });
+        layer.on('mouseout', function() {
+            layer.setStyle({
+                fillColor: 'orange'
+            });
+        });
+          
+          var eviction_id = feature.properties.eviction_i
+          var date_filed = feature.properties.date_file_
+          var neighborhood = feature.properties.neighborho
+                             
+          
+          var popup = ("Eviction ID: " + eviction_id + "</b><br>"
+            + "Date Filed: "   + date_filed + "</b><br>" + "Neighborhood: " + neighborhood)
+                       layer.bindPopup(popup)
+        }
+      }).addTo(map);
+  
+        
+//Sourse layer controll
+var sourceLayers = {
+    "<b style='color:#EDAD0F'>late_payment</b>": late_payment,
+    "<b style='color:#EDAD0F'>non_payment</b>": non_payment,
+    "<b style='color:#3AAE61'>condo_conversion</b>": condo_conversion,
+     "<b style='color:#3AAE61'>development</b>": development,
+     "<b style='color:#3AAE61'>demolition</b>": demolition,
+      "<b style='color:#3AAE61'>capital_improvement</b>": capital_improvement,
+      "<b style='color:#3AAE61'>owner_move_in</b>": owner_move_in,
+    "<b style='color:#3AAE61'>ellis_act</b>": ellis_act,
+     "<b style='color:#3AAE61'>substantial_rehab</b>": substantial_rehab,
+    "<b style='color:#800080'>access_denial</b>": access_denial,
+    "<b style='color:#800080'>unapproved_subtenant</b>": unapproved_subtenant,
+     "<b style='color:#800080'>breach</b>": breach,
+    "<b style='color:#800080'>nuisance</b>": nuisance,
+    "<b style='color:#800080'>illegal_use</b>": illegal_use,
+    "<b style='color:#800080'>lead_remediation</b>": lead_remediation,
+    "<b style='color:#800080'>failure_to_sign_renewal</b>": failure_to_sign_renewal,
+    "<b style='color:#800080'>roommate_same_unit</b>": roommate_same_unit
+};
+L.control.layers(null, sourceLayers, {collapsed:true} ).addTo(map);
+        
+
+    </script>
+    
+</body>
+
+</html>
